@@ -1,15 +1,43 @@
-h2
-  | Edit #{resource_name.to_s.humanize}
-= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :class => 'form-vertical' }) do |f|
-  = f.error_notification
-  = display_base_errors resource
-  = f.input :name, :autofocus => true
-  = f.input :email, :required => true
-  = f.input :password, :autocomplete => "off", :hint => "leave it blank if you don't want to change it", :required => false
-  = f.input :password_confirmation, :required => false
-  = f.input :current_password, :hint => "we need your current password to confirm your changes", :required => true
-  = f.button :submit, 'Update', :class => 'btn-primary'
-h3 Cancel my account
+h2.page-header Minha conta
+
+= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: 'form-vertical' }) do |f|
+  .row
+    .col-sm-12
+      = f.error_notification
+      = display_base_errors resource
+
+  .row
+    .col-sm-6
+      = f.input :email, required: true, readonly: true
+      = f.input :password, hint: "deixe em branco caso não deseje alterar", autocomplete: "off", required: false
+      = f.input :password_confirmation, autocomplete: "off", required: false
+      = f.input :current_password, :hint => "informe a sua senha atual para salvar as alterações", required: true
+
+    .col-sm-6
+      strong Eu sou
+
+      = f.collection_radio_buttons :profile, [['company', 'Pessoa Jurídica'] ,['solo', 'Pessoa Física']], :first, :last
+
+      = f.input :name, autofocus: true
+
+      = f.input :cpf, wrapper_html: { class: 'profile-field solo' }
+      = f.input :corporate_name, wrapper_html: { class: 'profile-field company' }
+      = f.input :trade_name, wrapper_html: { class: 'profile-field company' }
+      = f.input :cnpj, wrapper_html: { class: 'profile-field company' }
+
+      = f.input :address1, wrapper_html: { class: 'profile-field' }
+      = f.input :address2, wrapper_html: { class: 'profile-field' }
+      = f.input :number, wrapper_html: { class: 'profile-field' }
+      = f.input :zipcode, wrapper_html: { class: 'profile-field' }
+
+  .form-actions
+    = f.button :submit, 'Atualizar', :class => 'btn-primary'
+
+
+h3 Cancelar minha conta
 p
-  | Unhappy? #{link_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete}.
-= link_to "Back", :back
+  | Não está feliz? #{link_to "Cancele minha conta", registration_path(resource_name), data: { confirm: "Você tem certeza?\nEste processo é irreversível." }, method: :delete}.
+
+= link_to "Voltar", :back
+
+
